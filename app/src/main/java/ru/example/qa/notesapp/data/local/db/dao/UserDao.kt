@@ -15,5 +15,5 @@ interface UserDao {
     suspend fun getUserByEmail(email: String): UserEntity?
 
     @Insert
-    suspend fun saveUser(user: UserEntity)
+    suspend fun saveUser(user: UserEntity): Long
 }

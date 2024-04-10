@@ -26,7 +26,7 @@ class AppSession @Inject constructor(
         return authorizedUser != null
     }
 
-    private suspend fun authorizeUserByRawCredentials(username: String, passwordHash: String, remember: Boolean = true): Boolean {
+    suspend fun authorizeUserByRawCredentials(username: String, passwordHash: String, remember: Boolean = true): Boolean {
         authorizedUser = getUserByRawCredentialsUseCase(username, passwordHash)
         if (authorizedUser != null && remember) {
             rememberUser(username, passwordHash)

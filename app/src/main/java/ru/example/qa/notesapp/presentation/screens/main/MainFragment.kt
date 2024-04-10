@@ -32,7 +32,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun initUI() {
-
+        with (binding) {
+            btnLogout.setOnClickListener {
+                viewModel.logout()
+            }
+        }
     }
 
     private fun initViewModelObservers() {

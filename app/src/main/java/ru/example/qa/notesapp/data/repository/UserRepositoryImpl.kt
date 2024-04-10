@@ -57,10 +57,14 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveUser(user: UserModel, password: String) {
+    override suspend fun saveUser(user: UserModel): UserModel {
         return withContext(Dispatchers.IO) {
-            user.password = passwordEncoder.hash(password)
-            db.userDao.saveUser(userDomainModelMapper.domainToData(user))
+            val password = user.password ?: throw NullPointerException("UserModel's password must not be null")
+            val savedUser = user.copy(
+                password = passwordEncoder.hash(password)
+            )
+            savedUser.id = db.userDao.saveUser(userDomainModelMapper.domainToData(savedUser)).toInt()
+            savedUser
         }
     }
 }

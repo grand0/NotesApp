@@ -4,10 +4,10 @@
     <string name="password_text">Password</string>
     <string name="log_in_text">Log in</string>
     <string name="username_text">Username</string>
-    <string name="register_text">Register</string>
     <string name="create_account_text">Create account</string>
-    <string name="go_to_login_text">Go to login</string>
     <string name="required_error_text">Required</string>
     <string name="unique_error_text">Must be unique</string>
     <string name="wrong_credentials_error_text">Wrong credentials. Please try again.</string>
+    <string name="invalid_email_error_text">Invalid email</string>
+    <string name="log_out_text">Log out</string>
 </resources>

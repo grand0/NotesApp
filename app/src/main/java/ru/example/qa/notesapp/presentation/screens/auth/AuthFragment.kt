@@ -9,9 +9,9 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.example.qa.notesapp.R
 import ru.example.qa.notesapp.databinding.FragmentAuthBinding
-import ru.example.qa.notesapp.presentation.exception.auth.BadCredentialsException
-import ru.example.qa.notesapp.presentation.exception.auth.PasswordRequiredException
-import ru.example.qa.notesapp.presentation.exception.auth.UsernameRequiredException
+import ru.example.qa.notesapp.presentation.exception.auth.AuthBadCredentialsException
+import ru.example.qa.notesapp.presentation.exception.auth.AuthPasswordRequiredException
+import ru.example.qa.notesapp.presentation.exception.auth.AuthUsernameRequiredException
 import ru.example.qa.notesapp.presentation.model.AuthState
 import ru.example.qa.notesapp.util.AppNavigator
 import ru.example.qa.notesapp.util.clearErrorOnTextChanged
@@ -33,7 +33,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun initUi() {
-        with(binding) {
+        with (binding) {
             tilUsername.clearErrorOnTextChanged()
             tilPassword.clearErrorOnTextChanged()
 
@@ -50,19 +50,19 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun initViewModelObservers() {
-        with(viewModel) {
+        with (viewModel) {
             authErrorsChannel.observe(this@AuthFragment) { err ->
                 when (err) {
-                    is BadCredentialsException -> Snackbar.make(
+                    is AuthBadCredentialsException -> Snackbar.make(
                         binding.root,
                         R.string.wrong_credentials_error_text,
                         Snackbar.LENGTH_SHORT
                     ).show()
 
-                    is UsernameRequiredException -> binding.tilUsername.error =
+                    is AuthUsernameRequiredException -> binding.tilUsername.error =
                         getString(R.string.required_error_text)
 
-                    is PasswordRequiredException -> binding.tilPassword.error =
+                    is AuthPasswordRequiredException -> binding.tilPassword.error =
                         getString(R.string.required_error_text)
                 }
             }
@@ -87,7 +87,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun navigateToRegisterScreen() {
-
+        val action = AuthFragmentDirections.actionAuthFragmentToRegisterFragment()
+        navigator.navController.navigate(action)
     }
 
     private fun navigateToMainScreen() {

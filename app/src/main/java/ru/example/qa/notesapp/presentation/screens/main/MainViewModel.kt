@@ -36,4 +36,11 @@ class MainViewModel @Inject constructor(
             _authState.value = AuthState.AUTHENTICATED
         }
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            appSession.clearSession()
+            _authState.value = AuthState.NOT_AUTHENTICATED
+        }
+    }
 }

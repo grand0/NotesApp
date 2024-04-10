@@ -7,18 +7,16 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.example.qa.notesapp.domain.usecase.user.GetUserByCredentialsUseCase
 import ru.example.qa.notesapp.presentation.exception.auth.AuthException
-import ru.example.qa.notesapp.presentation.exception.auth.BadCredentialsException
-import ru.example.qa.notesapp.presentation.exception.auth.PasswordRequiredException
-import ru.example.qa.notesapp.presentation.exception.auth.UsernameRequiredException
+import ru.example.qa.notesapp.presentation.exception.auth.AuthBadCredentialsException
+import ru.example.qa.notesapp.presentation.exception.auth.AuthPasswordRequiredException
+import ru.example.qa.notesapp.presentation.exception.auth.AuthUsernameRequiredException
 import ru.example.qa.notesapp.presentation.model.AuthState
 import ru.example.qa.notesapp.session.AppSession
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val getUserByCredentialsUseCase: GetUserByCredentialsUseCase,
     private val appSession: AppSession,
 ) : ViewModel() {
 
@@ -28,15 +26,15 @@ class AuthViewModel @Inject constructor(
     val authErrorsChannel = Channel<AuthException>()
 
     fun auth(username: String, password: String) {
-        _authState.value = AuthState.AUTHENTICATING
         viewModelScope.launch {
+            _authState.value = AuthState.AUTHENTICATING
             var valid = true
             if (username.isEmpty()) {
-                authErrorsChannel.send(UsernameRequiredException())
+                authErrorsChannel.send(AuthUsernameRequiredException())
                 valid = false
             }
             if (password.isEmpty()) {
-                authErrorsChannel.send(PasswordRequiredException())
+                authErrorsChannel.send(AuthPasswordRequiredException())
                 valid = false
             }
 
@@ -45,7 +43,7 @@ class AuthViewModel @Inject constructor(
                 if (authed) {
                     _authState.value = AuthState.AUTHENTICATED
                 } else {
-                    authErrorsChannel.send(BadCredentialsException())
+                    authErrorsChannel.send(AuthBadCredentialsException())
                     _authState.value = AuthState.NOT_AUTHENTICATED
                 }
             } else {

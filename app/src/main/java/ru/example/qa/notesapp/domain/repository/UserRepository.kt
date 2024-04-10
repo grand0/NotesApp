@@ -9,5 +9,5 @@ interface UserRepository {
 
     suspend fun checkUsernameUnique(username: String): Boolean
     suspend fun checkEmailUnique(email: String): Boolean
-    suspend fun saveUser(user: UserModel, password: String)
+    suspend fun saveUser(user: UserModel): UserModel
 }
