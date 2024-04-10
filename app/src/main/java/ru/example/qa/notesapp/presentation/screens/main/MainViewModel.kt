@@ -6,13 +6,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.domain.model.UserModel
+import ru.example.qa.notesapp.domain.usecase.note.GetAllNotesUseCase
 import ru.example.qa.notesapp.presentation.model.AuthState
 import ru.example.qa.notesapp.session.AppSession
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val getAllNotesUseCase: GetAllNotesUseCase,
     private val appSession: AppSession,
 ) : ViewModel() {
 
@@ -21,6 +24,9 @@ class MainViewModel @Inject constructor(
 
     private val _authState = MutableStateFlow(AuthState.AUTHENTICATING)
     val authState = _authState.asStateFlow()
+
+    private val _notesState = MutableStateFlow<List<NoteModel>?>(null)
+    val notesState = _notesState.asStateFlow()
 
     fun auth() {
         viewModelScope.launch {
@@ -34,6 +40,12 @@ class MainViewModel @Inject constructor(
             }
             _userState.value = appSession.authorizedUser
             _authState.value = AuthState.AUTHENTICATED
+        }
+    }
+
+    fun updateNotes() {
+        viewModelScope.launch {
+            _notesState.value = getAllNotesUseCase()
         }
     }
 

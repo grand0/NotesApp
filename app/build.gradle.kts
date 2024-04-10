@@ -75,6 +75,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     implementation(libs.viewbindingpropertydelegate)
+
+    implementation(libs.glide)
 }
 
 kapt {

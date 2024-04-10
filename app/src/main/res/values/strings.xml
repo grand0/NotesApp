@@ -10,4 +10,7 @@
     <string name="wrong_credentials_error_text">Wrong credentials. Please try again.</string>
     <string name="invalid_email_error_text">Invalid email</string>
     <string name="log_out_text">Log out</string>
+    <string name="empty_notes_list_text">Here will be your notes. Create a new one by tapping +.</string>
+    <string name="notes_text">Notes</string>
+    <string name="add_text">Add</string>
 </resources>

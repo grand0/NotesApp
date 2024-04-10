@@ -10,7 +10,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.example.qa.notesapp.data.local.db.AppDatabase
+import ru.example.qa.notesapp.data.repository.NoteRepositoryImpl
 import ru.example.qa.notesapp.data.repository.UserRepositoryImpl
+import ru.example.qa.notesapp.domain.repository.NoteRepository
 import ru.example.qa.notesapp.domain.repository.UserRepository
 import ru.example.qa.notesapp.util.Keys
 import ru.example.qa.notesapp.util.Md5PasswordEncoder
@@ -28,6 +30,10 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindUserRepository(impl: UserRepositoryImpl): UserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindNoteRepository(impl: NoteRepositoryImpl): NoteRepository
 
     companion object {
         @Provides

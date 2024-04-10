@@ -1,7 +1,9 @@
 package ru.example.qa.notesapp.util
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +14,12 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+
+fun Context.toPx(dp: Int): Int = TypedValue.applyDimension(
+    TypedValue.COMPLEX_UNIT_DIP,
+    dp.toFloat(),
+    resources.displayMetrics
+).toInt()
 
 fun TextInputLayout.clearErrorOnTextChanged() {
     editText?.addTextChangedListener(object : TextWatcher {
