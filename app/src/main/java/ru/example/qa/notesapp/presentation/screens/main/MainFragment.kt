@@ -5,8 +5,8 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ru.example.qa.notesapp.R
@@ -43,7 +43,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun initUI() {
         with (binding) {
-            val layoutManager = LinearLayoutManager(requireContext())
+            val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = NoteListAdapter(
                 onItemClickListener = ::navigateToNoteScreen,
                 onItemMenuClickListener = ::openNoteMenuDialog
@@ -52,7 +52,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
             rvNotes.layoutManager = layoutManager
             rvNotes.adapter = adapter
-            rvNotes.addItemDecoration(HorizontalMarginDecorator(offset = requireContext().toPx(8)))
+            rvNotes.addItemDecoration(HorizontalMarginDecorator(offset = requireContext().toPx(4)))
             rvNotes.addItemDecoration(VerticalMarginDecorator(offset = requireContext().toPx(4)))
 
             registerForContextMenu(rvNotes)
