@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.domain.usecase.note.DeleteNoteUseCase
@@ -43,11 +42,12 @@ class NoteViewModel @AssistedInject constructor(
 
     fun saveNote(title: String?, content: String?) {
         viewModelScope.launch {
-            println("TEST TAG - saving")
-            val editedNote = _noteState.replayCache[0].copy(title = title, content = content)
-            println("TEST TAG - got copy")
-            _noteState.emit(editedNote)
-            updateNoteUseCase(editedNote)
+            val oldNote = _noteState.replayCache[0]
+            val editedNote = oldNote.copy(title = title, content = content)
+            if (oldNote != editedNote) {
+                _noteState.emit(editedNote)
+                updateNoteUseCase(editedNote)
+            }
             stopEditing()
         }
     }

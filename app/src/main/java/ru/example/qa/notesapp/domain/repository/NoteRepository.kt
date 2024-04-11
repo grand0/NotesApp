@@ -1,11 +1,12 @@
 package ru.example.qa.notesapp.domain.repository
 
 import ru.example.qa.notesapp.domain.model.NoteModel
+import ru.example.qa.notesapp.domain.model.UserModel
 
 interface NoteRepository {
 
-    suspend fun getAll(): List<NoteModel>
-    suspend fun createEmptyNote(): NoteModel
+    suspend fun getAllOfUser(author: UserModel): List<NoteModel>
     suspend fun update(note: NoteModel)
     suspend fun delete(note: NoteModel)
+    suspend fun createEmptyNote(author: UserModel): NoteModel
 }

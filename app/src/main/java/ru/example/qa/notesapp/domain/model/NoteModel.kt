@@ -5,6 +5,7 @@ import java.util.Date
 
 data class NoteModel(
     var id: Int = 0,
+    var authorId: Int,
     var title: String? = null,
     var content: String? = null,
     var fileId: String? = null,

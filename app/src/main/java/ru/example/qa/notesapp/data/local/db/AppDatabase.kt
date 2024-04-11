@@ -12,7 +12,7 @@ import ru.example.qa.notesapp.data.local.db.entity.UserEntity
         UserEntity::class,
         NoteEntity::class,
     ],
-    version = 4,
+    version = 5,
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract val userDao: UserDao

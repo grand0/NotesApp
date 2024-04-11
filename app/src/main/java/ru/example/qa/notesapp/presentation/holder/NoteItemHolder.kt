@@ -12,7 +12,10 @@ class NoteItemHolder(
 
     fun bindItem(item: NoteModel) {
         with (binding) {
+            tvTitle.isVisible = !item.title.isNullOrEmpty() || item.content.isNullOrEmpty()
             tvTitle.text = item.title
+            tvContents.isVisible = !item.content.isNullOrEmpty()
+            tvContents.text = item.content
             if (item.fileId != null) {
                 ivFile.isVisible = true
 //                Glide.with(itemView)

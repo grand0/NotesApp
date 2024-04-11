@@ -9,14 +9,14 @@ import kotlinx.coroutines.launch
 import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.domain.model.UserModel
 import ru.example.qa.notesapp.domain.usecase.note.CreateEmptyNoteUseCase
-import ru.example.qa.notesapp.domain.usecase.note.GetAllNotesUseCase
+import ru.example.qa.notesapp.domain.usecase.note.GetAllNotesOfUserUseCase
 import ru.example.qa.notesapp.presentation.model.AuthState
 import ru.example.qa.notesapp.session.AppSession
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getAllNotesUseCase: GetAllNotesUseCase,
+    private val getAllNotesOfUserUseCase: GetAllNotesOfUserUseCase,
     private val createEmptyNoteUseCase: CreateEmptyNoteUseCase,
     private val appSession: AppSession,
 ) : ViewModel() {
@@ -50,14 +50,18 @@ class MainViewModel @Inject constructor(
 
     fun updateNotes() {
         viewModelScope.launch {
-            _notesState.value = getAllNotesUseCase()
+            appSession.authorizedUser?.let {
+                _notesState.value = getAllNotesOfUserUseCase(it)
+            }
         }
     }
 
     fun newNote() {
         viewModelScope.launch {
-            _newNoteState.value = createEmptyNoteUseCase()
-            updateNotes()
+            appSession.authorizedUser?.let {
+                _newNoteState.value = createEmptyNoteUseCase(it)
+                updateNotes()
+            }
         }
     }
 

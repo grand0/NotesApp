@@ -6,9 +6,12 @@
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackgroundBorderless">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        android:divider="@drawable/divider"
         android:padding="16dp">
 
         <TextView
@@ -18,16 +21,22 @@
             android:ellipsize="end"
             android:lines="1"
             android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="hello" />
+
+        <TextView
+            android:id="@+id/tv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            tools:text="some text" />
 
         <ImageView
             android:id="@+id/iv_file"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+            android:visibility="gone" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

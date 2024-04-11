@@ -15,6 +15,7 @@ class NoteDomainModelMapper @Inject constructor() {
         }
         return NoteModel(
             id = entity.id,
+            authorId = entity.authorId,
             title = entity.title,
             content = entity.content,
             fileId = entity.fileId,
@@ -25,6 +26,7 @@ class NoteDomainModelMapper @Inject constructor() {
     fun domainToData(model: NoteModel): NoteEntity {
         return NoteEntity(
             id = model.id,
+            authorId = model.authorId,
             title = model.title,
             content = model.content,
             fileId = model.fileId,
