@@ -31,6 +31,10 @@ class NoteItemHolder(
             root.setOnClickListener {
                 onItemClickListener(item)
             }
+            root.setOnLongClickListener {
+                onItemMenuClickListener(item)
+                true
+            }
             ivMoreBtn.setOnClickListener {
                 onItemMenuClickListener(item)
             }
