@@ -5,4 +5,7 @@ import ru.example.qa.notesapp.domain.model.NoteModel
 interface NoteRepository {
 
     suspend fun getAll(): List<NoteModel>
+    suspend fun createEmptyNote(): NoteModel
+    suspend fun update(note: NoteModel)
+    suspend fun delete(note: NoteModel)
 }

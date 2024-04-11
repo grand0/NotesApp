@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_mainFragment_to_authFragment"
             app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -33,5 +36,16 @@
         <action
             android:id="@+id/action_registerFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="ru.example.qa.notesapp.presentation.screens.note.NoteFragment"
+        android:label="NoteFragment" >
+        <argument
+            android:name="note"
+            app:argType="ru.example.qa.notesapp.domain.model.NoteModel" />
+        <argument
+            android:name="editMode"
+            app:argType="boolean" />
     </fragment>
 </navigation>

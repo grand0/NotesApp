@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.domain.model.UserModel
+import ru.example.qa.notesapp.domain.usecase.note.CreateEmptyNoteUseCase
 import ru.example.qa.notesapp.domain.usecase.note.GetAllNotesUseCase
 import ru.example.qa.notesapp.presentation.model.AuthState
 import ru.example.qa.notesapp.session.AppSession
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getAllNotesUseCase: GetAllNotesUseCase,
+    private val createEmptyNoteUseCase: CreateEmptyNoteUseCase,
     private val appSession: AppSession,
 ) : ViewModel() {
 
@@ -27,6 +29,9 @@ class MainViewModel @Inject constructor(
 
     private val _notesState = MutableStateFlow<List<NoteModel>?>(null)
     val notesState = _notesState.asStateFlow()
+
+    private val _newNoteState = MutableStateFlow<NoteModel?>(null)
+    val newNoteState = _newNoteState.asStateFlow()
 
     fun auth() {
         viewModelScope.launch {
@@ -46,6 +51,19 @@ class MainViewModel @Inject constructor(
     fun updateNotes() {
         viewModelScope.launch {
             _notesState.value = getAllNotesUseCase()
+        }
+    }
+
+    fun newNote() {
+        viewModelScope.launch {
+            _newNoteState.value = createEmptyNoteUseCase()
+            updateNotes()
+        }
+    }
+
+    fun consumedNewNote() {
+        viewModelScope.launch {
+            _newNoteState.value = null
         }
     }
 

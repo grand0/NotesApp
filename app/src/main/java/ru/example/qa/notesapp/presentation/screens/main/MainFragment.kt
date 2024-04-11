@@ -10,6 +10,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ru.example.qa.notesapp.R
 import ru.example.qa.notesapp.databinding.FragmentMainBinding
+import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.presentation.adapter.NoteListAdapter
 import ru.example.qa.notesapp.presentation.decoration.HorizontalMarginDecorator
 import ru.example.qa.notesapp.presentation.decoration.VerticalMarginDecorator
@@ -40,13 +41,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun initUI() {
         with (binding) {
             val layoutManager = LinearLayoutManager(requireContext())
-            adapter = NoteListAdapter()
+            adapter = NoteListAdapter(
+                onItemClickListener = ::navigateToNoteScreen,
+            )
             rvNotes.layoutManager = layoutManager
             rvNotes.adapter = adapter
             rvNotes.addItemDecoration(HorizontalMarginDecorator(offset = requireContext().toPx(8)))
             rvNotes.addItemDecoration(VerticalMarginDecorator(offset = requireContext().toPx(4)))
 
-            toolbar.title = getString(R.string.notes_text)
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_logout -> {
@@ -55,6 +57,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     }
                     else -> false
                 }
+            }
+
+            fabAdd.setOnClickListener {
+                viewModel.newNote()
             }
         }
     }
@@ -86,6 +92,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     }
                 }
             }
+
+            newNoteState.observe(this@MainFragment) { newNote ->
+                if (newNote != null) {
+                    consumedNewNote()
+                    navigateToNoteScreen(newNote, editMode = true)
+                }
+            }
         }
     }
 
@@ -107,6 +120,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun navigateToAuthScreen() {
         val action = MainFragmentDirections.actionMainFragmentToAuthFragment()
-        navigator.navController.navigate(action)
+        navigator.navigate(action)
+    }
+
+    private fun navigateToNoteScreen(note: NoteModel, editMode: Boolean = false) {
+        val action = MainFragmentDirections.actionMainFragmentToNoteFragment(note, editMode)
+        navigator.navigate(action)
     }
 }

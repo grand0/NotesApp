@@ -18,4 +18,23 @@ class NoteRepositoryImpl @Inject constructor(
             db.noteDao.getAll().mapNotNull(noteDomainModelMapper::dataToDomain)
         }
     }
+
+    override suspend fun createEmptyNote(): NoteModel {
+        return withContext(Dispatchers.IO) {
+            val id = db.noteDao.createEmptyNote().toInt()
+            NoteModel(id = id)
+        }
+    }
+
+    override suspend fun update(note: NoteModel) {
+        withContext(Dispatchers.IO) {
+            db.noteDao.update(noteDomainModelMapper.domainToData(note))
+        }
+    }
+
+    override suspend fun delete(note: NoteModel) {
+        withContext(Dispatchers.IO) {
+            db.noteDao.delete(note.id)
+        }
+    }
 }

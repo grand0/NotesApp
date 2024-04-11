@@ -88,11 +88,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private fun navigateToLoginScreen() {
         val action = RegisterFragmentDirections.actionRegisterFragmentToAuthFragment()
-        navigator.navController.navigate(action)
+        navigator.navigate(action)
     }
 
     private fun navigateToMainScreen() {
         val action = RegisterFragmentDirections.actionRegisterFragmentToMainFragment()
-        navigator.navController.navigate(action)
+        navigator.navigate(action)
     }
 }

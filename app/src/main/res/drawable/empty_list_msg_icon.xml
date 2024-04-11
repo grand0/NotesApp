@@ -3,5 +3,5 @@
     <item
         android:width="64dp"
         android:height="64dp"
-        android:drawable="@drawable/sticky_note_2_black_24dp" />
+        android:drawable="@drawable/ic_sticky_note" />
 </layer-list>

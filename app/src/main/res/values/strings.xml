@@ -13,4 +13,9 @@
     <string name="empty_notes_list_text">Here will be your notes. Create a new one by tapping +.</string>
     <string name="notes_text">Notes</string>
     <string name="add_text">Add</string>
+    <string name="title_text">Title</string>
+    <string name="content_text">Content</string>
+    <string name="edit_text">Edit</string>
+    <string name="delete_text">Delete</string>
+    <string name="cancel_text">Cancel</string>
 </resources>
