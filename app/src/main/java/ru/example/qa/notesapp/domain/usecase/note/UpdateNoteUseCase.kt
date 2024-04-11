@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class UpdateNoteUseCase @Inject constructor(
     private val noteRepository: NoteRepository,
 ) {
-    suspend operator fun invoke(note: NoteModel) {
-        noteRepository.update(note)
+    suspend operator fun invoke(note: NoteModel): NoteModel {
+        return noteRepository.update(note)
     }
 }

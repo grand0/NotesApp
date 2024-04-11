@@ -20,6 +20,7 @@ import ru.example.qa.notesapp.R
 import ru.example.qa.notesapp.databinding.FragmentNoteBinding
 import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.util.AppNavigator
+import ru.example.qa.notesapp.util.Constants
 import ru.example.qa.notesapp.util.Keys
 import ru.example.qa.notesapp.util.observe
 import javax.inject.Inject
@@ -95,6 +96,7 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
                 with (binding) {
                     etTitle.setText(note.title)
                     etContent.setText(note.content)
+                    toolbar.subtitle = Constants.DATE_TIME_FORMATTER.format(note.lastEditTime)
                     setAttachmentControls(note)
                 }
             }

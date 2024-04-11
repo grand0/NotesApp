@@ -31,9 +31,11 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun update(note: NoteModel) {
-        withContext(Dispatchers.IO) {
-            db.noteDao.update(noteDomainModelMapper.domainToData(note.copy(lastEditTime = Date())))
+    override suspend fun update(note: NoteModel): NoteModel {
+        return withContext(Dispatchers.IO) {
+            val savedNote = note.copy(lastEditTime = Date())
+            db.noteDao.update(noteDomainModelMapper.domainToData(savedNote))
+            savedNote
         }
     }
 

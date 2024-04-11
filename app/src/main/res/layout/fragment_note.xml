@@ -9,6 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:subtitleTextColor="?colorSecondary"
         app:menu="@menu/menu_note_fragment_toolbar"
         app:navigationIcon="@drawable/ic_back" />
 

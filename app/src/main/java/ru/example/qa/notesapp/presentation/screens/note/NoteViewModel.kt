@@ -47,8 +47,7 @@ class NoteViewModel @AssistedInject constructor(
             val oldNote = _noteState.replayCache[0]
             val editedNote = oldNote.copy(title = title, content = content)
             if (oldNote != editedNote) {
-                _noteState.emit(editedNote)
-                updateNoteUseCase(editedNote)
+                _noteState.emit(updateNoteUseCase(editedNote))
             }
             stopEditing()
         }
@@ -76,8 +75,7 @@ class NoteViewModel @AssistedInject constructor(
     fun attachImage(uri: Uri) {
         viewModelScope.launch {
             val newNote = _noteState.replayCache[0].copy(fileUri = uri.toString())
-            _noteState.emit(newNote)
-            updateNoteUseCase(newNote)
+            _noteState.emit(updateNoteUseCase(newNote))
         }
     }
 
@@ -86,8 +84,7 @@ class NoteViewModel @AssistedInject constructor(
         if (note.fileUri != null) {
             viewModelScope.launch {
                 val newNote = note.copy(fileUri = null)
-                _noteState.emit(newNote)
-                updateNoteUseCase(newNote)
+                _noteState.emit(updateNoteUseCase(newNote))
             }
         }
     }
