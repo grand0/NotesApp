@@ -8,6 +8,7 @@ import ru.example.qa.notesapp.domain.model.NoteModel
 class NoteItemHolder(
     private val binding: ItemNoteBinding,
     private val onItemClickListener: (NoteModel) -> Unit,
+    private val onItemMenuClickListener: (NoteModel) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bindItem(item: NoteModel) {
@@ -28,6 +29,9 @@ class NoteItemHolder(
 
             root.setOnClickListener {
                 onItemClickListener(item)
+            }
+            ivMoreBtn.setOnClickListener {
+                onItemMenuClickListener(item)
             }
         }
     }

@@ -6,37 +6,54 @@
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackgroundBorderless">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:showDividers="middle"
-        android:divider="@drawable/divider"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-            tools:text="hello" />
-
-        <TextView
-            android:id="@+id/tv_contents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            tools:text="some text" />
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/iv_file"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:id="@+id/iv_more_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:foreground="?selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:src="@drawable/ic_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/divider"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                tools:text="hello" />
+
+            <TextView
+                android:id="@+id/tv_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                tools:text="some text" />
+
+            <ImageView
+                android:id="@+id/iv_file"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

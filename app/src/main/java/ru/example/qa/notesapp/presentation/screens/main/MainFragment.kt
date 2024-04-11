@@ -15,7 +15,9 @@ import ru.example.qa.notesapp.presentation.adapter.NoteListAdapter
 import ru.example.qa.notesapp.presentation.decoration.HorizontalMarginDecorator
 import ru.example.qa.notesapp.presentation.decoration.VerticalMarginDecorator
 import ru.example.qa.notesapp.presentation.model.AuthState
+import ru.example.qa.notesapp.presentation.model.NoteMenuResult
 import ru.example.qa.notesapp.util.AppNavigator
+import ru.example.qa.notesapp.util.Keys
 import ru.example.qa.notesapp.util.observe
 import ru.example.qa.notesapp.util.toPx
 import javax.inject.Inject
@@ -43,11 +45,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             val layoutManager = LinearLayoutManager(requireContext())
             adapter = NoteListAdapter(
                 onItemClickListener = ::navigateToNoteScreen,
+                onItemMenuClickListener = ::openNoteMenuDialog
             )
             rvNotes.layoutManager = layoutManager
             rvNotes.adapter = adapter
             rvNotes.addItemDecoration(HorizontalMarginDecorator(offset = requireContext().toPx(8)))
             rvNotes.addItemDecoration(VerticalMarginDecorator(offset = requireContext().toPx(4)))
+
+            registerForContextMenu(rvNotes)
 
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -111,11 +116,44 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun showEmptyListMessage() {
-        with (binding) {
+        with(binding) {
             rvNotes.isVisible = false
             tvEmptyListMsg.isVisible = true
             piLoading.isVisible = false
         }
+    }
+
+    private fun openNoteMenuDialog(note: NoteModel) {
+        navigator.observeCurrentBackStackEntryForResult<NoteMenuResult>(
+            Keys.NOTE_MENU_DIALOG_RESULT_KEY,
+            viewLifecycleOwner,
+        ) { result ->
+            when (result) {
+                NoteMenuResult.EDIT -> {
+                    navigator.navController.popBackStack(R.id.mainFragment, inclusive = false)
+                    navigateToNoteScreen(note, editMode = true)
+                }
+                NoteMenuResult.DELETE -> {
+                    navigator.navController.popBackStack(R.id.mainFragment, inclusive = false)
+                    openDeleteConfirmationDialog(note)
+                }
+            }
+        }
+        val action = MainFragmentDirections.actionMainFragmentToNoteMenuBottomSheetDialog()
+        navigator.navigate(action)
+    }
+
+    private fun openDeleteConfirmationDialog(note: NoteModel) {
+        navigator.observeCurrentBackStackEntryForResult<Boolean>(
+            Keys.NOTE_DELETE_CONFIRMATION_DIALOG_RESULT_KEY,
+            viewLifecycleOwner
+        ) { delete ->
+            if (delete) {
+                viewModel.deleteNote(note)
+            }
+        }
+        val action = MainFragmentDirections.actionMainFragmentToNoteDeleteConfirmationBottomSheetDialog()
+        navigator.navigate(action)
     }
 
     private fun navigateToAuthScreen() {

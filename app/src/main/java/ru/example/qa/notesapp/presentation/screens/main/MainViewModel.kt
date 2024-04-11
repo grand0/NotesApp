@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.domain.model.UserModel
 import ru.example.qa.notesapp.domain.usecase.note.CreateEmptyNoteUseCase
+import ru.example.qa.notesapp.domain.usecase.note.DeleteNoteUseCase
 import ru.example.qa.notesapp.domain.usecase.note.GetAllNotesOfUserUseCase
 import ru.example.qa.notesapp.presentation.model.AuthState
 import ru.example.qa.notesapp.session.AppSession
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getAllNotesOfUserUseCase: GetAllNotesOfUserUseCase,
     private val createEmptyNoteUseCase: CreateEmptyNoteUseCase,
+    private val deleteNoteUseCase: DeleteNoteUseCase,
     private val appSession: AppSession,
 ) : ViewModel() {
 
@@ -68,6 +70,13 @@ class MainViewModel @Inject constructor(
     fun consumedNewNote() {
         viewModelScope.launch {
             _newNoteState.value = null
+        }
+    }
+
+    fun deleteNote(note: NoteModel) {
+        viewModelScope.launch {
+            deleteNoteUseCase(note)
+            updateNotes()
         }
     }
 

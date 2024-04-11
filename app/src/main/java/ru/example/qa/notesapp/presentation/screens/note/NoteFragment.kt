@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -15,6 +14,7 @@ import dagger.hilt.android.lifecycle.withCreationCallback
 import ru.example.qa.notesapp.R
 import ru.example.qa.notesapp.databinding.FragmentNoteBinding
 import ru.example.qa.notesapp.util.AppNavigator
+import ru.example.qa.notesapp.util.Keys
 import ru.example.qa.notesapp.util.observe
 import javax.inject.Inject
 
@@ -51,8 +51,7 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
                         true
                     }
                     R.id.action_delete -> {
-                        viewModel.deleteNote()
-                        navigateUp()
+                        openDeleteConfirmationDialog()
                         true
                     }
                     R.id.action_cancel -> {
@@ -115,11 +114,30 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         }
     }
 
+    private fun openDeleteConfirmationDialog() {
+        navigator.observeCurrentBackStackEntryForResult<Boolean>(
+            Keys.NOTE_DELETE_CONFIRMATION_DIALOG_RESULT_KEY,
+            viewLifecycleOwner
+        ) { delete ->
+            if (delete) {
+                navigator.navController.popBackStack(R.id.noteFragment, inclusive = false)
+                deleteNote()
+            }
+        }
+        val action = NoteFragmentDirections.actionNoteFragmentToNoteDeleteConfirmationBottomSheetDialog()
+        navigator.navigate(action)
+    }
+
     private fun navigateUp() {
         navigator.navController.navigateUp()
     }
 
     private fun saveNote(title: String?, content: String?) {
         viewModel.saveNote(title, content)
+    }
+
+    private fun deleteNote() {
+        viewModel.deleteNote()
+        navigateUp()
     }
 }
