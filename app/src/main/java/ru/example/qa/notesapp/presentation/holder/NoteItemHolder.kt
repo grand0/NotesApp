@@ -2,6 +2,7 @@ package ru.example.qa.notesapp.presentation.holder
 
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.example.qa.notesapp.databinding.ItemNoteBinding
 import ru.example.qa.notesapp.domain.model.NoteModel
 
@@ -17,11 +18,11 @@ class NoteItemHolder(
             tvTitle.text = item.title
             tvContents.isVisible = !item.content.isNullOrEmpty()
             tvContents.text = item.content
-            if (item.fileId != null) {
+            if (item.fileUri != null) {
                 ivFile.isVisible = true
-//                Glide.with(itemView)
-//                    .load(item.fileId)
-//                    .into(binding.ivFile)
+                Glide.with(itemView)
+                    .load(item.fileUri)
+                    .into(binding.ivFile)
             } else {
                 ivFile.isVisible = false
                 ivFile.setImageDrawable(null)

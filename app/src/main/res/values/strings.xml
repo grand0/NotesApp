@@ -18,4 +18,6 @@
     <string name="edit_text">Edit</string>
     <string name="delete_text">Delete</string>
     <string name="cancel_text">Cancel</string>
+    <string name="attach_text">Attach image</string>
+    <string name="clear_attachment_text">Clear image</string>
 </resources>

@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ru.example.qa.notesapp.R
@@ -46,7 +47,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             adapter = NoteListAdapter(
                 onItemClickListener = ::navigateToNoteScreen,
                 onItemMenuClickListener = ::openNoteMenuDialog
-            )
+            ).apply {
+                stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+            }
             rvNotes.layoutManager = layoutManager
             rvNotes.adapter = adapter
             rvNotes.addItemDecoration(HorizontalMarginDecorator(offset = requireContext().toPx(8)))

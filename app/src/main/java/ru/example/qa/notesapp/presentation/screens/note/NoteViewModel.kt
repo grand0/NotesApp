@@ -1,5 +1,6 @@
 package ru.example.qa.notesapp.presentation.screens.note
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.domain.usecase.note.DeleteNoteUseCase
 import ru.example.qa.notesapp.domain.usecase.note.UpdateNoteUseCase
+import ru.example.qa.notesapp.data.local.storage.AppStorageManager
 
 @HiltViewModel(assistedFactory = NoteViewModel.Factory::class)
 class NoteViewModel @AssistedInject constructor(
@@ -68,6 +70,25 @@ class NoteViewModel @AssistedInject constructor(
     fun deleteNote() {
         viewModelScope.launch {
             deleteNoteUseCase(_noteState.replayCache[0])
+        }
+    }
+
+    fun attachImage(uri: Uri) {
+        viewModelScope.launch {
+            val newNote = _noteState.replayCache[0].copy(fileUri = uri.toString())
+            _noteState.emit(newNote)
+            updateNoteUseCase(newNote)
+        }
+    }
+
+    fun detachImage() {
+        val note = _noteState.replayCache[0]
+        if (note.fileUri != null) {
+            viewModelScope.launch {
+                val newNote = note.copy(fileUri = null)
+                _noteState.emit(newNote)
+                updateNoteUseCase(newNote)
+            }
         }
     }
 

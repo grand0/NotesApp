@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_note_fragment_toolbar"
         app:navigationIcon="@drawable/ic_back" />
 
@@ -18,8 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:hint="@string/title_text"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        android:hint="@string/title_text">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_title"
@@ -35,10 +34,9 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:hint="@string/content_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_title">
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
+        android:hint="@string/content_text">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_content"
@@ -49,4 +47,40 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_note_attachment"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="8dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_attachment_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_attach"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="16dp"
+            android:text="@string/attach_text"
+            app:icon="@drawable/ic_attach"
+            app:iconGravity="textStart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear_attachment"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="16dp"
+            android:text="@string/clear_attachment_text"
+            android:textColor="?colorError"
+            app:icon="@drawable/ic_cancel"
+            app:iconGravity="textStart"
+            app:iconTint="?colorError" />
+    </LinearLayout>
+</LinearLayout>
