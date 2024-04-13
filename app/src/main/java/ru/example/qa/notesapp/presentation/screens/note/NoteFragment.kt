@@ -68,6 +68,9 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
                 viewModel.detachImage()
             }
 
+            etTitle.setText(args.note.title)
+            etContent.setText(args.note.content)
+
             with (toolbar) {
                 setOnMenuItemClickListener {
                     when (it.itemId) {
@@ -94,8 +97,10 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         with (viewModel) {
             noteState.observe(this@NoteFragment) { note ->
                 with (binding) {
-                    etTitle.setText(note.title)
-                    etContent.setText(note.content)
+                    if (!editingState.value) {
+                        etTitle.setText(note.title)
+                        etContent.setText(note.content)
+                    }
                     toolbar.subtitle = Constants.DATE_TIME_FORMATTER.format(note.lastEditTime)
                     setAttachmentControls(note)
                 }

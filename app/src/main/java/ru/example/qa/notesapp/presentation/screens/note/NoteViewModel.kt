@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 import ru.example.qa.notesapp.domain.model.NoteModel
 import ru.example.qa.notesapp.domain.usecase.note.DeleteNoteUseCase
 import ru.example.qa.notesapp.domain.usecase.note.UpdateNoteUseCase
-import ru.example.qa.notesapp.data.local.storage.AppStorageManager
 
 @HiltViewModel(assistedFactory = NoteViewModel.Factory::class)
 class NoteViewModel @AssistedInject constructor(
@@ -46,23 +45,17 @@ class NoteViewModel @AssistedInject constructor(
         viewModelScope.launch {
             val oldNote = _noteState.replayCache[0]
             val editedNote = oldNote.copy(title = title, content = content)
+            _editingState.value = false
             if (oldNote != editedNote) {
                 _noteState.emit(updateNoteUseCase(editedNote))
             }
-            stopEditing()
         }
     }
 
     fun cancelEdit() {
         viewModelScope.launch {
-            _noteState.emit(_noteState.replayCache[0])
-            stopEditing()
-        }
-    }
-
-    private fun stopEditing() {
-        viewModelScope.launch {
             _editingState.value = false
+            _noteState.emit(_noteState.replayCache[0])
         }
     }
 
